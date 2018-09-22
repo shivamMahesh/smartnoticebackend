@@ -18,7 +18,7 @@ var db = require('knex')({
     database : 'smart_brain'
   }
 });
-app.post('/',(req,res)=>
+app.get('/',(req,res)=>
 {
   res.json('it is working');
 })
