@@ -15,10 +15,10 @@ db.transaction(trx=>
 			hash:hash,
 			email:email
 		})
-		.into('a.login')
+		.into('login')
 		.returning('email')
 		.then(logemail=>{
-		return trx('a.users')
+		return trx('users')
 		.returning('*')
 		.insert({
 		email:logemail[0],
