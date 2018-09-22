@@ -18,7 +18,10 @@ var db = require('knex')({
     database : 'smart_brain'
   }
 });
-
+app.post('/',(req,res)=>
+{
+  res.json('it is working');
+})
 app.post('/signin',(req,res)=>
 {
 	signin.handleSignin(req,res,db,bcrypt);
