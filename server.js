@@ -196,6 +196,7 @@ app.post('/verify',(req,res)=>
 app.post('/upload',upload.single('selectedFile'),(req,res)=>
 {
   flag=0;
+  fileid=undefined;
   description=req.body.description;
  var startd=req.body.startd,startt=req.body.startt, endd=req.body.endd,endt=req.body.endt;
   preference=req.body.preference;
@@ -254,17 +255,20 @@ var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMon
   res.status(400).json(`can't upload`);
 
  
-  waitUntil()
-    .interval(30000)
-    .times(30)
-    .condition(function(cb) {
-        process.nextTick(function() {
-            cb(flag===1 ? true : false);
-        });
-    })
-    .done(function(result) {
-       res.json("UPLOADED SUCCESSFULLY");
-    });
+ waitUntil()
+     .interval(20000)
+     .times(20)
+     .condition(function(cb) {
+         process.nextTick(function() {
+             cb(fileid!==undefined ? true : false);
+         });
+     })
+     .done(function(result) {
+      if(result===true)
+        res.json("UPLOADED SUCCESSFULLY");
+      else
+        res.status(400).json(`can't upload`);
+     });
    
 });
 
