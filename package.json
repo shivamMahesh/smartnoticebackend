@@ -1,5 +1,5 @@
 {
-  "name": "smartbrainapi",
+  "name": "smartnoticebackend",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -10,13 +10,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
-    "clarifai": "^2.8.1",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "googleapis": "^27.0.0",
     "knex": "^0.15.2",
+    "multer": "^1.4.0",
+    "nodemailer": "^4.6.8",
     "nodemon": "^1.18.4",
-    "pg": "^7.4.3"
+    "open": "0.0.5",
+    "path": "^0.12.7",
+    "pg": "^7.4.3",
+    "randomstring": "^1.1.5",
+    "wait-until": "0.0.2"
   }
 }

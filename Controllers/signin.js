@@ -7,28 +7,27 @@ const handleSignin=(req,res,db,bcrypt)=>
 	}
 	else
 	{
-db.select('email','hash').from('login')
-.where('email','=',req.body.email)
-.then(data=>
-{
-	const isValid=bcrypt.compareSync(req.body.password,data[0].hash);
+	db.select('email','pass').from('a.teachers')
+	.where('email','=',req.body.email)
+	.then(data=>
+	{
+	const isValid=bcrypt.compareSync(req.body.password,data[0].pass);
 	if(isValid)
 	{
-		return db.select('*').from('users')
+		return db.select('*').from('a.teachers')
 		.where('email','=',req.body.email)
 		.then(user=>
 		{
-			res.json(user[0])
+			res.json(user[0]);
 		})
 		.catch(err=>res.status(400).json('unable to get user'))
 	} 
 	else
 	{
-res.status(400).json('wrong creditials')
+	res.status(400).json('wrong creditials')
+	}})
+	.catch(err=>res.status(400).json('wrong creditials'))
 	}
-})
-.catch(err=>res.status(400).json('wrong creditials'))
-}
 }
 
 
