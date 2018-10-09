@@ -7,14 +7,14 @@ const handleSignin=(req,res,db,bcrypt)=>
 	}
 	else
 	{
-	db.select('email','pass').from('a.teachers')
+	db.select('email','pass').from('teachers')
 	.where('email','=',req.body.email)
 	.then(data=>
 	{
 	const isValid=bcrypt.compareSync(req.body.password,data[0].pass);
 	if(isValid)
 	{
-		return db.select('*').from('a.teachers')
+		return db.select('*').from('teachers')
 		.where('email','=',req.body.email)
 		.then(user=>
 		{

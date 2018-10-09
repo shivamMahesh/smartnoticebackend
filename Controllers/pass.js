@@ -7,7 +7,7 @@ const pas = bcrypt.hashSync(password);
    return res.status(400).json(false)
   }
   
-  db('a.teachers').where({
+  db('teachers').where({
     email:email})
   .update(
   {

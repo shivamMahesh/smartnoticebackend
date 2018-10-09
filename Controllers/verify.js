@@ -5,7 +5,7 @@ const handleVerify=(req,res,db)=>
   {
    return res.status(400).json(false)
   }
-  db('a.teachers').where({
+  db('teachers').where({
     email:email,
     token:token})
   .update(

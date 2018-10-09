@@ -26,7 +26,7 @@ const sendMail=(req,res,db,name,designation,email)=>
   html: html
   }
 
-  db('a.teachers')
+  db('teachers')
   .where({email:email})
   .update(
   {
@@ -51,7 +51,7 @@ const sendMail=(req,res,db,name,designation,email)=>
 const handleMail=(req,res,db)=>
 {
 	const {email}=req.body;
-	 db.select('name','designation').from('a.teachers')
+	 db.select('name','designation').from('teachers')
   .where({email:email})
   .then(data=>
   {

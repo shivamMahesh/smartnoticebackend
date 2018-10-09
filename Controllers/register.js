@@ -11,14 +11,14 @@ const handleRegister=(req,res,db,bcrypt)=>
   }
   else
   {
-  db.select('name').from('a.teachers')
+  db.select('name').from('teachers')
   .where({email:email
   })
   .then(data=>
   {
  if(data.length)
   {
-  db('a.teachers')
+  db('teachers')
 .where({email:email,
   active:false})
  .update(

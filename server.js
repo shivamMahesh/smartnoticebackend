@@ -25,10 +25,8 @@ var description, selectedFile, preference, name, fileid, status, fsd,fed,section
 var db = require('knex')({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : 'postgres',
-    password : 'Shivam@1234',
-    database : 'notice'
+   connectionString: process.env.DATABASE_URL,
+  ssl: true,
   }
 });
 
@@ -134,8 +132,9 @@ app.get('/utdb',(req,res)=>
   }
   for(i=0;i<sec.length;i++)
   {
-  db('a.image').insert(
+  db('image').insert(
     {description:description,
+      name:name,
       fileid:fileid,
       fsd:fsd,
       fed:fed,
@@ -202,6 +201,7 @@ app.post('/upload',upload.single('selectedFile'),(req,res)=>
   preference=req.body.preference;
   section=req.body.section;
   email=req.body.email;
+  name=req.body.name;
 var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
   fsd=startd+' '+startt;
@@ -272,7 +272,7 @@ var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMon
 app.post('/download',(req,res)=>
 {
   const {f_id}=req.body;
-  db.select('fileid').from('a.image')
+  db.select('fileid').from('image')
   .where({
   f_id:f_id})
   .catch(err=>res.status(400).json("invalid id"))
@@ -310,7 +310,7 @@ pass.handlePassword(req,res,db,bcrypt);
 
 app.post('/user',(req,res)=>
 {
-  db.select('name','designation').from('a.teachers')
+  db.select('name','designation').from('teachers')
   .where({email:req.body.email})
   .then(data=>
   {

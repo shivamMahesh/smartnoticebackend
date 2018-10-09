@@ -6,7 +6,7 @@ const handleRequest=(req,res,db)=>
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
 	
 
-  db('a.image').where('fsd','<',cd)
+  db('image').where('fsd','<',cd)
   .andWhere('fed','>',cd)
   .update(
   {
@@ -18,7 +18,7 @@ const handleRequest=(req,res,db)=>
   .catch(err=>res.status(400).json(err))
 
 
-  db('a.image').where('fsd','>',cd)
+  db('image').where('fsd','>',cd)
   .update(
   {
     status:'upcoming'
@@ -28,7 +28,7 @@ const handleRequest=(req,res,db)=>
   })
   .catch(err=>res.status(400).json(err))
 
-  db('a.image').where('fed','<',cd)
+  db('image').where('fed','<',cd)
   .update(
   {
     status:'previous'
@@ -39,7 +39,7 @@ const handleRequest=(req,res,db)=>
   .catch(err=>res.status(400).json(err))
 
 
-  db.select('description','fileid','fed','section','preference').from('a.image')
+  db.select('description','name','fileid','fed','section','preference').from('image')
   .where({
 	status:'current',
   section:section
@@ -49,7 +49,7 @@ const handleRequest=(req,res,db)=>
   {
   res.json(data);
   })
-  .catch(err=>res.status(400).json('galat hai'))
+  .catch(err=>res.status(400).json(err))
   }
 
 

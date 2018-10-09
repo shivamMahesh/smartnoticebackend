@@ -1,7 +1,7 @@
 const handleFiles=(req,res,db)=>
 {
   const {status,section}=req.body;  
- 	db.select('f_id','fileid','email','section').from('a.image')
+ 	db.select('f_id','fileid','email','section').from('image')
 	.where({
 	status:status
 	})

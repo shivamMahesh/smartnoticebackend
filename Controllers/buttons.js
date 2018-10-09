@@ -1,7 +1,7 @@
 const handleButtons=(req,res,db)=>
 {
  	  const {email}=req.body;
- 	 db.select('section').from('a.bridge')
+ 	 db.select('section').from('bridge')
 	.where('t_email','=',email)
 	.then(data=>
 	{
