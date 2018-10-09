@@ -23,7 +23,6 @@
     "open": "0.0.5",
     "path": "^0.12.7",
     "pg": "^7.4.3",
-    "randomstring": "^1.1.5",
-    "wait-until": "0.0.2"
+    "randomstring": "^1.1.5"
   }
 }

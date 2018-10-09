@@ -11,7 +11,6 @@ const buttons=require('./Controllers/buttons');
 const ras=require('./Controllers/ras');
 const filesd=require('./Controllers/filesd');
 var open = require('open');
-var waitUntil = require('wait-until');
 const path = require('path');
 const mail=require('./Controllers/mail');
 const mail1=require('./Controllers/mail1');
@@ -195,7 +194,7 @@ app.post('/verify',(req,res)=>
 
 app.post('/upload',upload.single('selectedFile'),(req,res)=>
 {
-  flag=0;
+  
   fileid=undefined;
   description=req.body.description;
  var startd=req.body.startd,startt=req.body.startt, endd=req.body.endd,endt=req.body.endt;
@@ -242,35 +241,29 @@ var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMon
   fields: 'id'
   }, function (err, file) {
   if (err) {
-    flag1=0;
+ 
     console.error(err);
   } else {
-    flag1=1;
+   
     fileid=file.data.id;
     console.log('File Id: ', file.data.id);
-    flag=1;
+    
   }
   });
-  if(flag1===0)
-  res.status(400).json(`can't upload`);
 
  
- waitUntil()
-     .interval(20000)
-     .times(20)
-     .condition(function(cb) {
-         process.nextTick(function() {
-             cb(fileid!==undefined ? true : false);
-         });
-     })
-     .done(function(result) {
-      if(result===true)
-        res.json("UPLOADED SUCCESSFULLY");
-      else
-        res.status(400).json(`can't upload`);
-     });
+ var _flagCheck = setInterval(function() {
+    if (flag1!==undefined) {
+        clearInterval(_flagCheck);
+        theCallback(res); // the function to run once all flags are true
+    }
+}, 100); // interval set at 100 milliseconds
    
 });
+function theCallback(res)
+{
+   res.json("UPLOADED SUCCESSFULLY");
+}
 
 
 app.post('/download',(req,res)=>
