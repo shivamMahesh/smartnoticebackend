@@ -275,12 +275,10 @@ app.post('/download',(req,res)=>
   .catch(err=>res.status(400).json("invalid id"))
   .then(data=>
   {
-  open( `https://drive.google.com/uc?export=download&id=${data[0].fileid}`, function (err) {
-  if ( err ) throw err;    
-  });
+  res.json(`https://drive.google.com/uc?export=download&id=${data[0].fileid}`);
 });
 
-  res.json("starting download");
+  
 });
 
 
