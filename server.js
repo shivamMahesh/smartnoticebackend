@@ -253,7 +253,7 @@ var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMon
 
  
  var _flagCheck = setInterval(function() {
-    if (flag1!==undefined) {
+    if (fileid!==undefined) {
         clearInterval(_flagCheck);
         theCallback(res); // the function to run once all flags are true
     }
