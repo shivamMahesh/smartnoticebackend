@@ -124,8 +124,7 @@ app.get('/utdb',(req,res)=>
 {
   var sec=[],count=0;
 
- 
-  for(i=0;i<=section.length-2;i=i+3)
+for(i=0;i<=section.length-2;i=i+3)
   {
   sec.push(section[i]+section[i+1])
   }
