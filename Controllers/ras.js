@@ -7,9 +7,10 @@ db('image').where('fsd','<',cd)
     status:'current'
   }).then(data=>
   {
-  // console.log(data);
+ 
   })
   .catch(err=>res.status(400).json(err))	
+   return true;
 }
 
 const updateUpcoming=(db,res,cd)=>
@@ -20,9 +21,10 @@ db('image').where('fsd','>',cd)
     status:'upcoming'
   }).then(data=>
   {
-  //console.log(data);
+
   })
   .catch(err=>res.status(400).json(err))
+  return true;
 }
 
 const updatePrevious=(db,res,cd)=>
@@ -33,9 +35,10 @@ const updatePrevious=(db,res,cd)=>
     status:'previous'
   }).then(data=>
   {
-  //console.log(data);
+
   })
   .catch(err=>res.status(400).json(err))
+  return true;
 }
 
 const handleRas=(section,res,db)=>
@@ -60,12 +63,23 @@ const handleRequest=(req,res,db)=>
   var  cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
 	
-updateCurrent(db,res,cd);
-updatePrevious(db,res,cd);
-updateUpcoming(db,res,cd);
+if(updateCurrent(db,res,cd))
+{
+if(updatePrevious(db,res,cd))
+{
+  if(updateUpcoming(db,res,cd))
+  {
 handleRas(section,res,db);
 }
-
+else
+res.status(400).json('WRONG')
+}
+else
+res.status(400).json('WRONG')
+}
+else
+res.status(400).json('WRONG')
+}
 
   module.exports={
 	handleRequest:handleRequest

@@ -312,7 +312,8 @@ app.post('/user',(req,res)=>
     res.json(data);
   else
     res.status(400).json(`USER DOESN'T EXITS`);
-});
+})
+  .catch( res.status(400).json(`USER DOESN'T EXITS`))
 });
 
 app.listen(process.env.PORT || 3000,()=>
