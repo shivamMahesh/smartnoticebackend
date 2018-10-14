@@ -20,11 +20,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var description, selectedFile, preference, name, fileid, status, fsd,fed,section=[],flag=0,email;
-const DATABASE_URL=$(heroku config:get DATABASE_URL -a your-app) your_process;
+
 var db = require('knex')({
   client: 'pg',
   connection: {
-   connectionString:DATABASE_URL,
+   connectionString: process.env.DATABASE_URL,
   ssl: true,
   }
 });

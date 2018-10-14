@@ -51,7 +51,7 @@ db.select('description','name','fileid','fed','section','preference').from('imag
   .orderBy('preference', 'asc')
   .then(data=>
   {
-    console.log("senf=ding to R pi");
+    console.log("sending to R pi");
   res.json(data);
   })
   .catch(err=>res.status(400).json(err))
