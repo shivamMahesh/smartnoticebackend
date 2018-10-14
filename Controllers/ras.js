@@ -7,7 +7,7 @@ db('image').where('fsd','<',cd)
     status:'current'
   }).then(data=>
   {
- 
+ console.log("changing current");
   })
   .catch(err=>res.status(400).json(err))	
    return true;
@@ -21,7 +21,7 @@ db('image').where('fsd','>',cd)
     status:'upcoming'
   }).then(data=>
   {
-
+console.log("changing upcoming");
   })
   .catch(err=>res.status(400).json(err))
   return true;
@@ -35,7 +35,7 @@ const updatePrevious=(db,res,cd)=>
     status:'previous'
   }).then(data=>
   {
-
+console.log("changing previous");
   })
   .catch(err=>res.status(400).json(err))
   return true;
@@ -51,6 +51,7 @@ db.select('description','name','fileid','fed','section','preference').from('imag
   .orderBy('preference', 'asc')
   .then(data=>
   {
+    console.log("senf=ding to R pi");
   res.json(data);
   })
   .catch(err=>res.status(400).json(err))
