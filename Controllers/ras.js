@@ -1,4 +1,4 @@
-const updateCurrent=(db,res,cd)=>
+const updateCurrent=(section,db,res,cd)=>
 {
 db('image').where('fsd','<',cd)
   .andWhere('fed','>',cd)
@@ -8,13 +8,13 @@ db('image').where('fsd','<',cd)
   }).then(data=>
   {
  console.log("changing current");
- updateUpcoming(db,res,cd);
+ updateUpcoming(section,db,res,cd);
   })
   .catch(err=>res.status(400).json(err))	
    return true;
 }
 
-const updateUpcoming=(db,res,cd)=>
+const updateUpcoming=(section,db,res,cd)=>
 {
 db('image').where('fsd','>',cd)
   .update(
@@ -23,13 +23,13 @@ db('image').where('fsd','>',cd)
   }).then(data=>
   {
 console.log("changing upcoming");
-updatePrevious(db,res,cd);
+updatePrevious(section,db,res,cd);
   })
   .catch(err=>res.status(400).json(err))
   return true;
 }
 
-const updatePrevious=(db,res,cd)=>
+const updatePrevious=(section,db,res,cd)=>
 {
 	 db('image').where('fed','<',cd)
   .update(
@@ -67,7 +67,7 @@ const handleRequest=(req,res,db)=>
   var  cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
 	
-updateCurrent(db,res,cd);
+updateCurrent(section,db,res,cd);
 }
 
   module.exports={
