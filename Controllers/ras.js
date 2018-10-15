@@ -7,7 +7,7 @@ db('image').where('fsd','<',cd)
     status:'current'
   }).then(data=>
   {
- console.log("changing current");
+ console.log("changing current  ",data);
  updateUpcoming(section,db,res,cd);
   })
   .catch(err=>res.status(400).json(err))	
@@ -22,7 +22,7 @@ db('image').where('fsd','>',cd)
     status:'upcoming'
   }).then(data=>
   {
-console.log("changing upcoming");
+console.log("changing upcoming",data);
 updatePrevious(section,db,res,cd);
   })
   .catch(err=>res.status(400).json(err))
@@ -37,7 +37,7 @@ const updatePrevious=(section,db,res,cd)=>
     status:'previous'
   }).then(data=>
   {
-console.log("changing previous");
+console.log("changing previous",data);
 handleRas(section,res,db);
   })
   .catch(err=>res.status(400).json(err))
@@ -54,7 +54,7 @@ db.select('description','name','fileid','fed','section','preference').from('imag
   .orderBy('preference', 'asc')
   .then(data=>
   {
-    console.log("sending to rpi")
+    console.log("sending to rpi",data)
   res.json(data);
   })
   .catch(err=>res.status(400).json(err))
