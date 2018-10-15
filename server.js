@@ -318,8 +318,16 @@ app.post('/user',(req,res)=>
 
 app.get("/ras1",(req,res)=>
 {
+  db = require('knex')({
+  client: 'pg',
+  connection: {
+   connectionString: process.env.DATABASE_URL,
+  ssl: true,
+  }
+});
   var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
+                console.log(cd);
   db('image').where('fsd','<',cd)
   .andWhere('fed','>',cd)
   .update(
@@ -335,7 +343,13 @@ res.json("true1");
 
 
 app.get("/ras2",(req,res)=>
-{
+{db = require('knex')({
+  client: 'pg',
+  connection: {
+   connectionString: process.env.DATABASE_URL,
+  ssl: true,
+  }
+});
   var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
   db('image').where('fsd','>',cd)
@@ -351,10 +365,17 @@ res.json("true2");
 })
 
 
-app.get("/ras3",(req,res)=>
-{
+app.get("/ras3",(req,res)=>{
+db = require('knex')({
+  client: 'pg',
+  connection: {
+   connectionString: process.env.DATABASE_URL,
+  ssl: true,
+  }
+});
   var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
+   console.log(cd);
    db('image').where('fed','<',cd)
   .update(
   {
