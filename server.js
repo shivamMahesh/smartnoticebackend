@@ -315,6 +315,61 @@ app.post('/user',(req,res)=>
 })
 });
 
+
+app.get("/ras1",(req,res)=>
+{
+  var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
+                +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
+  db('image').where('fsd','<',cd)
+  .andWhere('fed','>',cd)
+  .update(
+  {
+    status:'current'
+  }).then(data=>
+  {
+ console.log("changing current  ",data);
+res.json("true1");
+  })
+  .catch(err=>res.status(400).json(err))  
+})
+
+
+app.get("/ras2",(req,res)=>
+{
+  var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
+                +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
+  db('image').where('fsd','>',cd)
+  .update(
+  {
+    status:'upcoming'
+  }).then(data=>
+  {
+console.log("changing upcoming",data);
+res.json("true2");
+  })
+  .catch(err=>res.status(400).json(err))
+})
+
+
+app.get("/ras3",(req,res)=>
+{
+  var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
+                +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
+   db('image').where('fed','<',cd)
+  .update(
+  {
+    status:'previous'
+  }).then(data=>
+  {
+console.log("changing previous",data);
+res.json("true3");
+  })
+  .catch(err=>res.status(400).json(err))
+})
+
+
+
+
 app.listen(process.env.PORT || 3000,()=>
 {
     console.log(`server is working on port ${process.env.PORT}`);
