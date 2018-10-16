@@ -7,6 +7,7 @@ db('image').where('fsd','<',cd)
     status:'current'
   }).then(data=>
   {
+    console.log("updating current");
   updateUpcoming(req,res,db,cd);
     })
   .catch(err=>res.status(400).json(err))  
@@ -40,7 +41,7 @@ const updatePrevious=(req,res,db,cd)=>
 
 const handleRas=(req,res,db)=>
 {
-const section=req.section;
+var section=req.body.section;
 db.select('description','name','fileid','fed','section','preference').from('image')
   .where({
   status:'current',
