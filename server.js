@@ -325,6 +325,7 @@ app.get("/ras1",(req,res)=>
   ssl: true,
   }
 });
+  const status='current';
   var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
                 console.log(cd);
@@ -332,7 +333,7 @@ app.get("/ras1",(req,res)=>
   .andWhere('fed','>',cd)
   .update(
   {
-    status:'current'
+    status:current
   }).then(data=>
   {
  console.log("changing current  ",data);
@@ -350,12 +351,13 @@ app.get("/ras2",(req,res)=>
   ssl: true,
   }
 });
+ const status='upcoming';
   var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
   db('image').where('fsd','>',cd)
   .update(
   {
-    status:'upcoming'
+    status:status
   }).then(data=>
   {
 console.log("changing upcoming",data);
@@ -376,10 +378,11 @@ db = require('knex')({
   var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
    console.log(cd);
+    const status='previous';
    db('image').where('fed','<',cd)
   .update(
   {
-    status:'previous'
+    status:status
   }).then(data=>
   {
 console.log("changing previous",data);
