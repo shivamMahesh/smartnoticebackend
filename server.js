@@ -333,7 +333,7 @@ app.get("/ras1",(req,res)=>
   .andWhere('fed','>',cd)
   .update(
   {
-    status:current
+    status:status
   }).then(data=>
   {
  console.log("changing current  ",data);
