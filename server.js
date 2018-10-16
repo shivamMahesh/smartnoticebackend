@@ -122,7 +122,7 @@ app.get('/',(req,res)=>
 
 app.get('/utdb',(req,res)=>
 {
-  var sec=[],count=0;
+  var sec=[];
 
 for(i=0;i<=section.length-2;i=i+3)
   {
@@ -143,8 +143,6 @@ for(i=0;i<=section.length-2;i=i+3)
     })
   .then(res=>
   {
-    count=count+1;
-  
   })
   }
   res.json("added");
@@ -201,11 +199,19 @@ app.post('/upload',upload.single('selectedFile'),(req,res)=>
   section=req.body.section;
   email=req.body.email;
   name=req.body.name;
-var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
+  var currentTime = new Date();
+
+var currentOffset = currentTime.getTimezoneOffset();
+
+var ISTOffset = 330;
+
+var c = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
                 +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
+   console.log(cd);
+
   fsd=startd+' '+startt;
   fed=endd+' '+endt;
-  //console.log(fsd,'  ',fed,' ',cd);
  if(fed<fsd )
  {
   res.status(400).json("wrong dates");
@@ -316,80 +322,7 @@ app.post('/user',(req,res)=>
 });
 
 
-app.get("/ras1",(req,res)=>
-{
-  db = require('knex')({
-  client: 'pg',
-  connection: {
-   connectionString: process.env.DATABASE_URL,
-  ssl: true,
-  }
-});
-  const status='current';
-  var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
-                +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
-                console.log(cd);
-  db('image').where('fsd','<',cd)
-  .andWhere('fed','>',cd)
-  .update(
-  {
-    status:status
-  }).then(data=>
-  {
- console.log("changing current  ",data);
-res.json("true1");
-  })
-  .catch(err=>res.status(400).json(err))  
-})
 
-
-app.get("/ras2",(req,res)=>
-{db = require('knex')({
-  client: 'pg',
-  connection: {
-   connectionString: process.env.DATABASE_URL,
-  ssl: true,
-  }
-});
- const status='upcoming';
-  var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
-                +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
-  db('image').where('fsd','>',cd)
-  .update(
-  {
-    status:status
-  }).then(data=>
-  {
-console.log("changing upcoming",data);
-res.json("true2");
-  })
-  .catch(err=>res.status(400).json(err))
-})
-
-
-app.get("/ras3",(req,res)=>{
-db = require('knex')({
-  client: 'pg',
-  connection: {
-   connectionString: process.env.DATABASE_URL,
-  ssl: true,
-  }
-});
-  var c=new Date(),cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.getDate()<10)?'0':'')+c.getDate()+" " +((c.getHours()<10)?'0':'')+c.getHours() + ":"  
-                +((c.getMinutes()<10)?'0':'')+ c.getMinutes();
-   console.log(cd);
-    const status='previous';
-   db('image').where('fed','<',cd)
-  .update(
-  {
-    status:status
-  }).then(data=>
-  {
-console.log("changing previous",data);
-res.json("true3");
-  })
-  .catch(err=>res.status(400).json(err))
-})
 
 
 
