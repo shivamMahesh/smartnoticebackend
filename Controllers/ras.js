@@ -40,7 +40,7 @@ const updatePrevious=(req,res,db,cd)=>
 
 const handleRas=(req,res,db)=>
 {
-const section={req.section};
+const {section}=req.section;
 db.select('description','name','fileid','fed','section','preference').from('image')
   .where({
   status:'current',
