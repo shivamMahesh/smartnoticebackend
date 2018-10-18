@@ -5,7 +5,7 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'smartnoticeboardrvce@gmail.com',
-    pass: 'Rvcse@2020'
+    pass: process.env.pass
   }
 });
 
