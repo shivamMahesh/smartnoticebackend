@@ -14,10 +14,17 @@ var open = require('open');
 const path = require('path');
 const mail=require('./Controllers/mail');
 const mail1=require('./Controllers/mail1');
-const pass=require('./Controllers/pass')
+const pass=require('./Controllers/pass');
+const request=require('request');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+"use strict";
+var sdk = require("microsoft-cognitiveservices-speech-sdk");
+
+
+var subscriptionKey = process.env.microsoft;
+var serviceRegion = "centralus";
 
 var description, selectedFile, preference, name, fileid, status, fsd,fed,section=[],flag=0,email;
 
@@ -322,7 +329,137 @@ app.post('/user',(req,res)=>
 });
 
 
+app.post('/audio',upload.single('selectedFile'),(req,res)=>
+{
 
+var fileid1=undefined;
+var filename = `./uploads/${newFilename}`; 
+var pushStream = sdk.AudioInputStream.createPushStream();
+
+
+fs.createReadStream(filename).on('data', function(arrayBuffer) {
+  pushStream.write(arrayBuffer.buffer);
+}).on('end', function() {
+  pushStream.close();
+});
+
+
+console.log("Now recognizing from: " + filename);
+
+
+var audioConfig = sdk.AudioConfig.fromStreamInput(pushStream);
+var speechConfig = sdk.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
+
+
+speechConfig.speechRecognitionLanguage = "en-US";
+
+var recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
+
+recognizer.recognizeOnceAsync(
+  function (result) {
+    console.log(result);
+    fileid=result;
+    recognizer.close();
+    recognizer = undefined;
+  },
+  function (err) {
+    console.trace("err - " + err);
+
+    recognizer.close();
+    recognizer = undefined;
+  });
+
+var _flagCheck = setInterval(function() {
+    if (fileid1!==undefined) {
+        clearInterval(_flagCheck);
+        theCallback1(res); 
+    }
+}, 100); 
+   
+});
+
+function theCallback1(res)
+{
+var speech=fileid1.privText;
+var str=speech.split(' ');
+var name=undefined,section=undefined;
+for(i=0;i<str.length;i++)
+{
+  if(str[i]=='Name')
+    name=str[i+1];
+  if(str[i]=='Section')
+    section=str[i+1];
+}
+name='%'+name+'%';
+
+if(name===undefined && section===undefined)
+{
+  res.json([]);
+}
+else if(name!==undefined && section!==undefined)
+{
+db.select('email').from('teachers')
+  .where('name','like',name)
+  .then(data=>
+  {
+    console.log(data);
+    if(data.length)
+    {
+db.select('description','name','fileid','fed','section','preference').from('image')
+  .where({
+  email:data[0].email,
+  section:section
+  })
+  .orderBy('preference', 'asc')
+  .then(data=>
+  {
+  res.json(data);
+  })
+  .catch(err=>res.status(400).json(err));
+}
+else
+res.json([]);
+  })
+  .catch(err=>res.status(400).json(err));
+}
+else if(name!==undefined)
+{
+db.select('email').from('teachers')
+  .where('name','like',name)
+  .then(data=>
+  {
+    if(data.length)
+    {
+db.select('description','name','fileid','fed','section','preference').from('image')
+  .where({
+  email:data[0].email
+  })
+  .orderBy('preference', 'asc')
+  .then(data=>
+  {
+  res.json(data);
+  })
+  .catch(err=>res.status(400).json(err))
+  }
+  else
+    res.json([]);
+  })
+  .catch(err=>res.status(400).json(err));
+}
+else
+{
+  db.select('description','name','fileid','fed','section','preference').from('image')
+  .where({
+  section:section
+  })
+  .orderBy('preference', 'asc')
+  .then(data=>
+  {
+  res.json(data);
+  })
+  .catch(err=>res.status(400).json(err));
+}
+}
 
 
 

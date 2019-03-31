@@ -74,7 +74,6 @@ cd=c.getFullYear()+"-"+(((c.getMonth()+1)<10)?'0':'')+(c.getMonth()+1)+"-"+((c.g
   
 }
 
-
   module.exports={
   handleRequest:handleRequest
 }
