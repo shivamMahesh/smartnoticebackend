@@ -381,6 +381,8 @@ var _flagCheck = setInterval(function() {
 function theCallback1(res)
 {
 var speech=fileid1.privText;
+if(speech!=undefined)
+{
 var str=speech.split(' ');
 var name=undefined,section=undefined;
 for(i=0;i<str.length;i++)
@@ -460,6 +462,9 @@ else
   })
   .catch(err=>res.status(400).json(err));
 }
+}
+else
+res.json("speech not recognized");
 }
 
 
