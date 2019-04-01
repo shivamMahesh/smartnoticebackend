@@ -370,7 +370,7 @@ recognizer.recognizeOnceAsync(
   });
 
 var _flagCheck = setInterval(function() {
-    if (fileid1!==undefined) {
+    if (fileid1!=undefined && fileid1.privText!==undefined) {
         clearInterval(_flagCheck);
         theCallback1(res); 
     }
