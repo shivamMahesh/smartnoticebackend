@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var sdk = require("microsoft-cognitiveservices-speech-sdk");
 
 
-var subscriptionKey = process.env.microsoft;
+var subscriptionKey = '7c43b9819066481b83943c852587b4b7';
 var serviceRegion = "centralus";
 
 var description, selectedFile, preference, name, fileid, status, fsd,fed,section=[],flag=0,email;
@@ -358,7 +358,7 @@ var recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
 recognizer.recognizeOnceAsync(
   function (result) {
     console.log(result);
-    fileid=result;
+    fileid1=result;
     recognizer.close();
     recognizer = undefined;
   },
@@ -391,7 +391,8 @@ for(i=0;i<str.length;i++)
     section=str[i+1];
 }
 name='%'+name+'%';
-
+console.log(name);
+console.log(section);
 if(name===undefined && section===undefined)
 {
   res.json([]);
