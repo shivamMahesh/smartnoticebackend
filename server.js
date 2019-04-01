@@ -370,11 +370,11 @@ recognizer.recognizeOnceAsync(
   });
 
 var _flagCheck = setInterval(function() {
-    if (fileid1!=undefined && fileid1.privText!==undefined) {
+    if (fileid1!==undefined && fileid1.privText!==undefined) {
         clearInterval(_flagCheck);
         theCallback1(res); 
     }
-}, 1000); 
+}, 10000); 
    
 });
 
@@ -385,16 +385,23 @@ if(speech!==undefined)
 {
 var str=speech.split(' ');
 var name=undefined,section=undefined;
-for(i=0;i<str.length;i++)
+var sem=undefined;
+for(i=0;i<str.length-1;i++)
 {
   if(str[i]=='Name')
     name=str[i+1];
+  else if(str[i]=='Semester')
+    sem=str[i+1];
   if(str[i]=='Section')
     section=str[i+1];
 }
 name='%'+name+'%';
 console.log(name);
-console.log(section);
+if(section!==undefined && sem!==undefined){
+  section=sem.charAt(0)+section.charAt(0);
+  console.log(section);
+}
+
 if(name===undefined && section===undefined)
 {
   res.json([]);
