@@ -163,14 +163,12 @@ const directory = './uploads';
 
   fs.readdir(directory, (err, files) => {
   if (err) throw err;
-
   for (const file of files) {
-    if(file.originalname!='Recording (4).wav'){
+    if(file!=='default.jpg'){
     fs.unlink(path.join(directory, file), err => {
       if (err) throw err;
     });
-  }
-}
+}}
 });
 
 	signin.handleSignin(req,res,db,bcrypt);
@@ -353,7 +351,7 @@ var audioConfig = sdk.AudioConfig.fromStreamInput(pushStream);
 var speechConfig = sdk.SpeechConfig.fromSubscription(subscriptionKey, serviceRegion);
 
 
-speechConfig.speechRecognitionLanguage = "en-US";
+speechConfig.speechRecognitionLanguage = "en-IN";
 
 var recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
 
