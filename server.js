@@ -374,14 +374,14 @@ var _flagCheck = setInterval(function() {
         clearInterval(_flagCheck);
         theCallback1(res); 
     }
-}, 100); 
+}, 1000); 
    
 });
 
 function theCallback1(res)
 {
 var speech=fileid1.privText;
-if(speech!=undefined)
+if(speech!==undefined)
 {
 var str=speech.split(' ');
 var name=undefined,section=undefined;
