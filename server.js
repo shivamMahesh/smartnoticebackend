@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 "use strict";
 var sdk = require("microsoft-cognitiveservices-speech-sdk");
-
+var fileid1=undefined;
 
 var subscriptionKey = '7c43b9819066481b83943c852587b4b7';
 var serviceRegion = "centralus";
@@ -165,10 +165,12 @@ const directory = './uploads';
   if (err) throw err;
 
   for (const file of files) {
+    if(file.originalname!='Recording (4).wav'){
     fs.unlink(path.join(directory, file), err => {
       if (err) throw err;
     });
   }
+}
 });
 
 	signin.handleSignin(req,res,db,bcrypt);
@@ -332,7 +334,7 @@ app.post('/user',(req,res)=>
 app.post('/audio',upload.single('selectedFile'),(req,res)=>
 {
 
-var fileid1=undefined;
+fileid1=undefined;
 var filename = `./uploads/${newFilename}`; 
 var pushStream = sdk.AudioInputStream.createPushStream();
 
