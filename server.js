@@ -55,65 +55,43 @@ const {google} = require('googleapis');
 var drive,oAuth2Client;
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 
-
+const CLIENT_ID =process.env.client_id;
+const CLIENT_SECRET = process.env.client_secret;
+const REDIRECT_URI = process.env.redirect_uris;
+const REFRESH_TOKEN = process.env.refresh_token;
 app.get('/',(req,res)=>
 {
-  function authorize(credentials, callback) {
-  const {client_secret, client_id, redirect_uris} = credentials.installed;
    oAuth2Client = new google.auth.OAuth2(
-      process.env.client_id, process.env.client_secret, process.env.redirect_uris);
+    CLIENT_ID,
+    CLIENT_SECRET,
+    REDIRECT_URI
+   );
 
-  }
-  oAuth2Client.setCredentials({ "refresh_token": process.env.refresh_token })
+  oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-  function getAccessToken(oAuth2Client, callback) {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
+  drive = google.drive({
+    version: 'v3',
+    auth: oAuth2Client,
   });
-
-  console.log('Authorize this app by visiting this url:', authUrl);
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  rl.question('Enter the code from that page here: ', (code) => {
-    rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return console.error('Error retrieving access token', err);
-      oAuth2Client.setCredentials(token);
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) console.error(err);
-        console.log('Token stored to', TOKEN_PATH);
-      });
-      callback(oAuth2Client);
-    });
-   });
-  }
  
-  function listFiles(auth) {
-   drive = google.drive({version: 'v3', auth});
   drive.files.list({
-    pageSize: 20,
+    pageSize: 10,
     fields: 'nextPageToken, files(id, name)',
   }, (err, res) => {
     if (err) return console.log('The API returned an error: ' + err);
-   files = res.data.files;
+    const files = res.data.files;
     if (files.length) {
-     // console.log('Files:');
+      console.log('Files:');
       files.map((file) => {
-        //console.log(`${file.name} (${file.id})`);
+        console.log(`${file.name} (${file.id})`);
       });
     } else {
       console.log('No files found.');
     }
   });
-  }
+
   res.json("drive working fine");
-
 });
-
 
 
 app.get('/utdb',(req,res)=>
