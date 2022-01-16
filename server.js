@@ -59,16 +59,10 @@ const TOKEN_PATH = 'token.json';
 
 app.get('/',(req,res)=>
 {
-  fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  authorize(JSON.parse(content), listFiles);
-  });
-
-
   function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
    oAuth2Client = new google.auth.OAuth2(
-      client_id, client_secret, redirect_uris[0]);
+      process.env.pass.client_id, process.env.pass.client_secret, process.env.pass.redirect_uris);
 
   fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) return getAccessToken(oAuth2Client, callback);
@@ -117,7 +111,7 @@ app.get('/',(req,res)=>
         //console.log(`${file.name} (${file.id})`);
       });
     } else {
-      //console.log('No files found.');
+      console.log('No files found.');
     }
   });
   }
