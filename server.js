@@ -20,11 +20,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 "use strict";
-var sdk = require("microsoft-cognitiveservices-speech-sdk");
+//var sdk = require("microsoft-cognitiveservices-speech-sdk");
 var fileid1=undefined;
 
-var subscriptionKey = '7c43b9819066481b83943c852587b4b7';
-var serviceRegion = "centralus";
+//var subscriptionKey = '7c43b9819066481b83943c852587b4b7';
+//var serviceRegion = "centralus";
 
 var description, selectedFile, preference, name, fileid, status, fsd,fed,section=[],flag=0,email;
 
@@ -329,7 +329,7 @@ app.post('/user',(req,res)=>
 });
 
 
-app.post('/audio',upload.single('selectedFile'),(req,res)=>
+/*app.post('/audio',upload.single('selectedFile'),(req,res)=>
 {
 
 fileid1=undefined;
@@ -473,7 +473,7 @@ else
 else
 res.json("speech not recognized");
 }
-
+*/
 
 
 
