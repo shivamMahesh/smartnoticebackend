@@ -54,7 +54,6 @@ const readline = require('readline');
 const {google} = require('googleapis');
 var drive,oAuth2Client;
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
-const TOKEN_PATH = 'token.json';
 
 
 app.get('/',(req,res)=>
@@ -62,14 +61,10 @@ app.get('/',(req,res)=>
   function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
    oAuth2Client = new google.auth.OAuth2(
-      process.env.pass.client_id, process.env.pass.client_secret, process.env.pass.redirect_uris);
+      process.env.client_id, process.env.client_secret, process.env.redirect_uris);
 
-  fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getAccessToken(oAuth2Client, callback);
-    oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
-  });
   }
+  oAuth2Client.setCredentials({ "refresh_token": process.env.refresh_token })
 
   function getAccessToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
